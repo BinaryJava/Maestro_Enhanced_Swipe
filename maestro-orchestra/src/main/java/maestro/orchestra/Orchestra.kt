@@ -1223,6 +1223,22 @@ class Orchestra(
                 waitToSettleTimeoutMs = command.waitToSettleTimeoutMs
             )
 
+            elementSelector != null && (end != null || endRelative != null) -> {
+                val uiElement = findElement(elementSelector, optional = command.optional)
+                if (end != null)
+                    maestro.swipeFromElementToPoint(
+                        uiElement = uiElement.element,
+                        endPoint = end,
+                        duration = command.duration
+                    )
+                else
+                    maestro.swipeFromElementToPoint(
+                        uiElement = uiElement.element,
+                        endRelative = endRelative,
+                        duration = command.duration
+                    )
+            }
+
             else -> error("Illegal arguments for swiping")
         }
         return true
